@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lokx 后台管理</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="../javascript/main.js"></script>
+    <script type="text/javascript">
+        window.init = function () {
+            map = new AMap.Map('map', {
+                center: [116.39, 39.9],
+                zoom: 9,
+                // mapStyle: 'amap://styles/whitesmoke'
+            });
+
+            AMap.event.addDomListener(document.getElementById('setCenter'), 'click', function () {
+                $.ajax({
+                    // url: "/Users/gx/code/java/lokx/position.json",
+                    url: "./position.json",
+                    success: function (data) {
+                        phone_position = data;
+                        
+                        // 设置缩放级别和中心点
+                        map.setZoomAndCenter(14, [phone_position.longitude, phone_position.latitude]);
+                        // 在新中心点添加 marker
+                        marker = new AMap.Marker({
+                            map: map,
+                            position: [phone_position.longitude, phone_position.latitude]
+                        });
+
+                        $('#setCenter').addClass('is-loading');
+
+                        setTimeout(function () {
+                            $('#setCenter').removeClass('is-loading');
+                        }, 1000);
+                    }
+                })
+
+            });
+
+//             marker = new AMap.Marker({
+//                 position: new AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+//                 title: '北京'
+//             });
+//
+// // 将创建的点标记添加到已有的地图实例：
+//             map.add(marker);
+
+// 移除已创建的 marker
+//             map.remove(marker);
+        }
+    </script>
+    <script src="https://webapi.amap.com/maps?v=1.4.8&key=c10c539c32ffec90d88b633bff7a0443&callback=init"></script>
+
+</head>
+<body>
+
+<section class="hero is-dark is-fullheight">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand" style="background: url(https://i.loli.net/2018/07/19/5b50811e0c823.png); background-size: cover; width: 120px">
+                    <a class="navbar-item">
+                        <!--<img src="https://i.loli.net/2018/07/19/5b50811e0c823.png" alt="Logo">-->
+                    </a>
+                    <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+                </div>
+                <div id="navbarMenuHeroB" class="navbar-menu">
+                    <div class="navbar-end">
+                        <span class="navbar-item">
+              <a class="button is-dark is-inverted">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Download</span>
+              </a>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="pages">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <p class="title is-1">
+                    LOKX
+                </p>
+                <p class="subtitle is-3">
+                    <br>
+                    "最"好用，"最"安全的 Android 安全锁应用
+                    <br>
+                    您的所有数据均采用 AES-256 加密，甚至连我们都无法知道您在干什么
+                </p>
+            </div>
+        </div>
+
+        <div class="hero-body" style="display: none;">
+            <div class="level has-text-centered" style="width: 90%">
+                <div class="level-left" id="map" style="height: 690px; width: 1150px">
+
+                </div>
+                <div class="button-group level-right">
+                    <a class="button is-warning is-large" id="setCenter">定位</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-body" style="display: none;">
+            <div class="container has-text-centered">
+                <div class="button-container">
+                    <a class="button is-large">一键锁定</a>
+                </div>
+                <br>
+                <div class="button-container">
+                    <a class="button is-danger is-large">一键销毁</a>
+                </div>
+                <br>
+                <div class="button-container">
+                    <a class="button is-danger is-large">一键还原</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-foot">
+        <nav class="tabs is-boxed is-fullwidth">
+            <div class="container">
+                <ul id="tabs">
+                    <li class="is-active">
+                        <a>概览</a>
+                    </li>
+                    <li>
+                        <a>地点回传</a>
+                    </li>
+                    <li>
+                        <a>一键</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a>Elements</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a>Components</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a>Layout</a>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+</body>
+</html>
